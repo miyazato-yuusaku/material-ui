@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+import { Autocomplete } from '@material-ui/lab'
+import { TextField, Card } from '@material-ui/core'
 
-function App() {
+const App = props => {
+  const data = [
+    { name: 'yusaku', age: 25 },
+    { name: 'omas', age: 52 }
+  ]
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Card>
+      <div>
+        <Autocomplete
+          id='combo-box-demo'
+          options={data}
+          getOptionLabel={option => option.name}
+          style={{ width: 300 }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label='Combo box'
+              variant='outlined'
+              fullWidth
+            />
+          )}
+        />
+      </div>
+    </Card>
+  )
 }
 
-export default App;
+export default App
