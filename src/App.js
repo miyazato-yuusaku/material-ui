@@ -1,5 +1,4 @@
 import React from 'react'
-import logo from './logo.svg'
 import './App.css'
 import { Autocomplete } from '@material-ui/lab'
 import { TextField, Card } from '@material-ui/core'
