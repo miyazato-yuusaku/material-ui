@@ -1,5 +1,11 @@
 import React from 'react'
-import { Card, TextField } from '@material-ui/core'
+import {
+  Card,
+  TextField,
+  CardHeader,
+  CardContent,
+  CardActions
+} from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
 class App extends React.Component {
@@ -7,6 +13,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       data: {}
+    }
+    this.item = {
+      data: { name: '', age: 0 }
     }
   }
 
@@ -28,19 +37,21 @@ class App extends React.Component {
   render () {
     return (
       <Card>
-        <div>
+        <CardHeader title='list' />
+        <CardActions>
           <SelectorView data={this.state.data} />
-        </div>
-        <div>
-          <View name={this.state.data.name} />
-        </div>
+        </CardActions>
+        <CardContent>
+          <View name={this.item.data} />
+        </CardContent>
       </Card>
     )
   }
 }
 
 const View = props => {
-  return <div>{props.name}</div>
+  return <div>{props.age}</div>
+  console.log(props.age)
 }
 
 const SelectorView = props => (
