@@ -19,9 +19,10 @@ class App extends React.Component {
     }
   }
 
-  handleupdate (event) {
+  handleUpdate (event) {
     const index = event.target.dateset.optionIndex
-    const place = this.state.data[index]
+    const place = this.item.data[index]
+    console.log(place)
     this.setstate({ name: place.name })
   }
 
@@ -39,7 +40,10 @@ class App extends React.Component {
       <Card>
         <CardHeader title='list' />
         <CardActions>
-          <SelectorView data={this.state.data} />
+          <SelectorView
+            data={this.state.data}
+            handleUpdate={this.handleUpdate.bind(this)}
+          />
         </CardActions>
         <CardContent>
           <View name={this.item.data} />
@@ -50,8 +54,8 @@ class App extends React.Component {
 }
 
 const View = props => {
-  return <div>{props.age}</div>
-  console.log(props.age)
+  const { name, age } = props.name
+  return <ul><li>{name}</li><li>{age}</li></ul>
 }
 
 const SelectorView = props => (
