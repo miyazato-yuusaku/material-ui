@@ -12,18 +12,17 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {}
-    }
-    this.item = {
-      data: { name: '', age: 0 }
+      data: {},
+      item: { name: '', age: 0 }
     }
   }
 
   handleUpdate (event) {
     const index = event.target.dateset.optionIndex
-    const place = this.item.data[index]
+    const place = this.state.data[index]
+    console.log(index)
     console.log(place)
-    this.setstate({ name: place.name })
+    this.setstate({ item: { name: place.name } })
   }
 
   componentDidMount () {
@@ -46,7 +45,7 @@ class App extends React.Component {
           />
         </CardActions>
         <CardContent>
-          <View name={this.item.data} />
+          <View name={this.state.item} />
         </CardContent>
       </Card>
     )
@@ -55,7 +54,12 @@ class App extends React.Component {
 
 const View = props => {
   const { name, age } = props.name
-  return <ul><li>{name}</li><li>{age}</li></ul>
+  return (
+    <ul>
+      <li>{name}</li>
+      <li>{age}</li>
+    </ul>
+  )
 }
 
 const SelectorView = props => (
