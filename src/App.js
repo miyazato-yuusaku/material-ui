@@ -13,16 +13,17 @@ class App extends React.Component {
     super(props)
     this.state = {
       data: {},
-      item: { name: '', age: 0 }
+      placeName: {}
     }
   }
 
   handleUpdate (event) {
-    const index = event.target.dateset.optionIndex
+    const index = event.target.dataset.optionIndex
     const place = this.state.data[index]
     console.log(index)
-    console.log(place)
-    this.setstate({ item: { name: place.name } })
+    console.log(place.name)
+    this.setState({ placeName: place })
+    console.log(this.state.placeName)
   }
 
   componentDidMount () {
@@ -45,7 +46,7 @@ class App extends React.Component {
           />
         </CardActions>
         <CardContent>
-          <View name={this.state.item} />
+          <View item={this.state.placeName} />
         </CardContent>
       </Card>
     )
@@ -53,7 +54,7 @@ class App extends React.Component {
 }
 
 const View = props => {
-  const { name, age } = props.name
+  const { name, age } = props.item
   return (
     <ul>
       <li>{name}</li>
@@ -71,6 +72,7 @@ const SelectorView = props => (
     renderInput={params => (
       <TextField {...params} label='Combo box' variant='outlined' fullWidth />
     )}
+    onChange={props.handleUpdate}
   />
 )
 
