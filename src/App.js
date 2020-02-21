@@ -1,76 +1,88 @@
 import React from 'react'
 import {
   Card,
-  TextField,
   CardHeader,
   CardContent,
-  CardActions
+  CardActions,
+  TextField,
+  List,
+  ListItem,
+  ListItemText
 } from '@material-ui/core'
+
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: {},
-      placeName: {}
+      items: {},
+      item: ''
     }
+    this.apikey = 'd44820a99e565793f96bb49913a3135f'
   }
 
-  handleUpdate (event) {
-    const index = event.target.dataset.optionIndex
-    const place = this.state.data[index]
-    console.log(index)
-    console.log(place.name)
-    this.setState({ placeName: place })
-    console.log(this.state.placeName)
+  handleupdate (e) {
+    const index = e.target.dataset.optionIndex
+    const data = this.state.items[index].areacode_s
+    this.setState({ item: data })
+    console.log(data)
   }
 
   componentDidMount () {
-    this.setState({
-      data: [
-        { name: 'yusaku', age: 25 },
-        { name: 'omas', age: 52 }
-      ]
-    })
+    getJSON(
+      'https://api.gnavi.co.jp/master/GAreaSmallSearchAPI/v3/?keyid=d44820a99e565793f96bb49913a3135f&lang=ja'
+    )
+      .then(json => json.garea_small)
+      .then(json => this.setState({ items: json }))
   }
 
   render () {
     return (
       <Card>
-        <CardHeader title='list' />
+        <CardHeader title='ぐるなび' />
         <CardActions>
           <SelectorView
-            data={this.state.data}
-            handleUpdate={this.handleUpdate.bind(this)}
+            data={this.state.items}
+            handleUpdate={this.handleupdate.bind(this)}
           />
         </CardActions>
         <CardContent>
-          <View item={this.state.placeName} />
+          <ListView item={this.state.item} />
         </CardContent>
       </Card>
     )
   }
 }
 
-const View = props => {
-  const { name, age } = props.item
+const ListView = props => {
+  const data = props.item
   return (
-    <ul>
-      <li>{name}</li>
-      <li>{age}</li>
-    </ul>
+    <List>
+      <ListItem>
+        <ListItemText primary={data} />
+      </ListItem>
+    </List>
   )
+}
+
+const getJSON = async uri => {
+  const result = await window.fetch(uri).then(res => res.json())
+  return result
 }
 
 const SelectorView = props => (
   <Autocomplete
-    id='combo-box-demo'
     options={props.data}
-    getOptionLabel={option => option.name}
-    style={{ width: 300 }}
+    getOptionLabel={option => option.areaname_s}
     renderInput={params => (
-      <TextField {...params} label='Combo box' variant='outlined' fullWidth />
+      <TextField
+        {...params}
+        label='Choose a location'
+        variant='outlined'
+        style={{ width: 300 }}
+        fullWidth
+      />
     )}
     onChange={props.handleUpdate}
   />
