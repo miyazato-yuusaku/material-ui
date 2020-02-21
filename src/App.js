@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemText
 } from '@material-ui/core'
-
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
 class App extends React.Component {
@@ -18,7 +17,13 @@ class App extends React.Component {
     this.state = {
       items: {},
       item: '',
-      rist: ''
+      rist: {
+        name1: '',
+        name2: '',
+        name3: '',
+        name4: '',
+        name5: ''
+      }
     }
     this.apikey = 'd44820a99e565793f96bb49913a3135f'
   }
@@ -26,9 +31,8 @@ class App extends React.Component {
   handleupdate (e) {
     const index = e.target.dataset.optionIndex
     const data = this.state.items[index].areacode_s
-    this.setState({ item: data })
     this.searchData()
-    console.log(data)
+    this.setState({ item: data })
   }
 
   async setData () {
@@ -50,7 +54,13 @@ class App extends React.Component {
         .fetch(uri)
         .then(res => res.json())
         .then(json => json.rest)
-        .then(json => json[0].name)
+        .then(json => ({
+          name1: json[0].name,
+          name2: json[1].name,
+          name3: json[2].name,
+          name4: json[3].name,
+          name5: json[4].name
+        }))
 
     const uri = 'https://api.gnavi.co.jp/RestSearchAPI/v3/?'
     const params = `keyid=${this.apikey}&areacode_s=${this.state.item}`
@@ -71,7 +81,7 @@ class App extends React.Component {
   //  }
 
   render () {
-    console.log(this.state.rist)
+    console.log(this.state.rest)
     return (
       <Card>
         <CardHeader title='ぐるなび' />
@@ -94,7 +104,19 @@ const ListView = props => {
   return (
     <List>
       <ListItem>
-        <ListItemText primary={data} />
+        <ListItemText primary={data.name1} />
+      </ListItem>
+      <ListItem>
+        <ListItemText primary={data.name2} />
+      </ListItem>
+      <ListItem>
+        <ListItemText primary={data.name3} />
+      </ListItem>
+      <ListItem>
+        <ListItemText primary={data.name4} />
+      </ListItem>
+      <ListItem>
+        <ListItemText primary={data.name5} />
       </ListItem>
     </List>
   )
