@@ -1,14 +1,6 @@
 import React from 'react'
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  TextField,
-  List,
-  ListItem,
-  ListItemText
-} from '@material-ui/core'
+import './App.css'
+import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
 class App extends React.Component {
@@ -18,11 +10,11 @@ class App extends React.Component {
       items: {},
       item: '',
       rist: {
-        name1: '',
-        name2: '',
-        name3: '',
-        name4: '',
-        name5: ''
+        name0: 'name',
+        name1: 'name',
+        name2: 'name',
+        name3: 'name',
+        name4: 'name'
       }
     }
     this.apikey = 'd44820a99e565793f96bb49913a3135f'
@@ -41,7 +33,6 @@ class App extends React.Component {
         .fetch(uri)
         .then(res => res.json())
         .then(json => json.garea_small)
-
     const uri = 'https://api.gnavi.co.jp/master/GAreaSmallSearchAPI/v3/?'
     const params = `keyid=${this.apikey}&lang=ja`
     const data = await getJSON(uri + params)
@@ -55,11 +46,11 @@ class App extends React.Component {
         .then(res => res.json())
         .then(json => json.rest)
         .then(json => ({
-          name1: json[0].name,
-          name2: json[1].name,
-          name3: json[2].name,
-          name4: json[3].name,
-          name5: json[4].name
+          name0: json[0].url,
+          name1: json[1].url,
+          name2: json[2].url,
+          name3: json[3].url,
+          name4: json[4].url
         }))
 
     const uri = 'https://api.gnavi.co.jp/RestSearchAPI/v3/?'
@@ -72,29 +63,19 @@ class App extends React.Component {
     this.setData()
   }
 
-  //  componentDidMount () {
-  //    getJSON(
-  //      'https://api.gnavi.co.jp/master/GAreaSmallSearchAPI/v3/?keyid=d44820a99e565793f96bb49913a3135f&lang=ja'
-  //    )
-  //      .then(json => json.garea_small)
-  //      .then(json => this.setState({ items: json }))
-  //  }
-
   render () {
-    console.log(this.state.rest)
+    console.log(this.state.rist)
     return (
-      <Card>
-        <CardHeader title='ぐるなび' />
-        <CardActions>
+      <div>
+        <h1>ぐるなび</h1>
+        <p>
           <SelectorView
             data={this.state.items}
             handleUpdate={this.handleupdate.bind(this)}
           />
-        </CardActions>
-        <CardContent>
           <ListView rist={this.state.rist} />
-        </CardContent>
-      </Card>
+        </p>
+      </div>
     )
   }
 }
@@ -102,35 +83,35 @@ class App extends React.Component {
 const ListView = props => {
   const data = props.rist
   return (
-    <List>
-      <ListItem>
-        <ListItemText primary={data.name1} />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary={data.name2} />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary={data.name3} />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary={data.name4} />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary={data.name5} />
-      </ListItem>
-    </List>
+    <ul>
+      <li>
+        <a target='_blank' href={data.name0}>
+          {data.name0}
+        </a>
+      </li>
+      <li>
+        <a target='_blank' href={data.name1}>
+          {data.name1}
+        </a>
+      </li>
+      <li>
+        <a target='_blank' href={data.name2}>
+          {data.name2}
+        </a>
+      </li>
+      <li>
+        <a target='_blank' href={data.name3}>
+          {data.name3}
+        </a>
+      </li>
+      <li>
+        <a target='_blank' href={data.name4}>
+          {data.name4}
+        </a>
+      </li>
+    </ul>
   )
 }
-
-// const getJSON = async uri => {
-//  const result = await window.fetch(uri).then(res => res.json())
-//  return result
-// }
-
-// const getJson = (uri, params, options) => {
-//  const result = window.fetch(uri + params, options).then(res => res.json())
-//  return result
-// }
 
 const SelectorView = props => (
   <Autocomplete
